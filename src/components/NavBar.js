@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/utils/context/authContext';
 import { Navbar, Container, Nav } from 'react-bootstrap';
@@ -17,13 +15,13 @@ export default function NavBar() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Link className="nav-link" href={`/records/${user.firebaseKey}`}>
+            <Link className="nav-link" href={`/records/${user.uid}`}>
               My Vinyl Record Collection
             </Link>
             <Link className="nav-link" href="/records">
               View Public Vinyl Records
             </Link>
-            <Link className="nav-link" href={`/user/${user.firebaseKey}`}>
+            <Link className="nav-link" href={`/user/${user.uid}`}>
               My Profile
             </Link>
           </Nav>
