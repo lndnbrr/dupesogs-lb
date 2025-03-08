@@ -1,4 +1,4 @@
-import { clientCredentials } from '../utils/client';
+import { clientCredentials } from '@/utils/client';
 
 const dbURL = clientCredentials.databaseURL;
 
@@ -54,4 +54,32 @@ const deleteRecord = (firebaseKey) =>
       .catch(reject);
   });
 
-export { getSingleRecord, getRecordsByOfficialStatus, getRecordsByUid, deleteRecord };
+const createRecord = (payload) =>
+  new Promise((resolve, reject) => {
+    fetch(`${dbURL}/records.json`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => resolve(data))
+      .catch(reject);
+  });
+
+const updateRecord = (payload) =>
+  new Promise((resolve, reject) => {
+    fetch(`${dbURL}/records/${payload.firebaseKey}.json`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => resolve(data))
+      .catch(reject);
+  });
+
+export { getSingleRecord, getRecordsByOfficialStatus, getRecordsByUid, deleteRecord, createRecord, updateRecord };
