@@ -35,9 +35,10 @@ function RecordCard({ recordObj, onUpdate }) {
         ) : (
           ''
         )}
+        <Card.Text>{recordObj.genre}</Card.Text>
+        {recordObj.is_official ? <Card.Text>OFFICIAL RECORD</Card.Text> : <Card.Text>UNOFFICIAL RECORD</Card.Text>}
+        <Card.Text>Release Date: {recordObj.created_at}</Card.Text>
       </Card.Body>
-      {recordObj.is_official ? <Card.Text>OFFICIAL RECORD</Card.Text> : <Card.Text>UNOFFICIAL RECORD</Card.Text>}
-      <Card.Text>{recordObj.created_at}</Card.Text>
     </Card>
   );
 }
@@ -49,6 +50,7 @@ RecordCard.propTypes = {
     artist: PropTypes.string,
     created_at: PropTypes.string,
     firebaseKey: PropTypes.string,
+    genre: PropTypes.string,
     image: PropTypes.string,
     is_official: PropTypes.bool,
     title: PropTypes.string,
