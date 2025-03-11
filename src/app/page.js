@@ -17,8 +17,8 @@ export default function Homepage() {
 
   return (
     <>
-      <div>This is the home page!</div>
-      <div className="d-flex justify-content-between">
+      <h1 className="d-flex justify-content-center mt-4">Welcome to Dupesogs!</h1>
+      <div className="d-flex flex-wrap justify-content-center justify-content-around">
         {record.slice(0, 3).map((featRecord) => (
           <RecordCard key={featRecord.id} recordObj={featRecord} onUpdate={recordPreview} />
         ))}
