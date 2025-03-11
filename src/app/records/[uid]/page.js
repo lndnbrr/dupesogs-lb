@@ -24,13 +24,15 @@ export default function RecordCollectionPage() {
 
   return (
     <>
-      <div>here all of the records of the current user should display</div>
-      <Link href="/record/new" passHref>
-        <Button type="button" variant="success">
-          Create a record!
-        </Button>
-      </Link>
-      <div className="d-flex justify-content-between mt-3">
+      <h1 className="d-flex justify-content-center mt-2">Record Collection Page</h1>
+      <div className="d-flex justify-content-center">
+        <Link href="/record/new" passHref>
+          <Button type="button" variant="success">
+            Create a record!
+          </Button>
+        </Link>
+      </div>
+      <div className="d-flex justify-content-between justify-content-around flex-wrap mt-3">
         {records.map((yourRecord) => (
           <RecordCard key={yourRecord.firebaseKey} recordObj={yourRecord} onUpdate={recordsOfCollection} />
         ))}

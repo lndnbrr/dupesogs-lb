@@ -17,8 +17,8 @@ export default function PublicRecordsPage() {
 
   return (
     <>
-      <div>This is the Public Records Page!</div>
-      <div className="d-flex justify-content-between">
+      <h1 className="d-flex justify-content-center mt-2">Welcome to the Public Records Page!</h1>
+      <div className="d-flex justify-content-around justify-content-center flex-wrap">
         {record.map((featRecord) => (
           <RecordCard key={featRecord.id} recordObj={featRecord} onUpdate={officialRecords} />
         ))}

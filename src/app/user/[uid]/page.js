@@ -29,7 +29,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      <div>Profile details of a user goes here!</div>
+      <h1>Profile Page</h1>
       <div className="d-flex flex-column align-items-center">
         <ProfilePicture src={profUsers[profileUidKey]?.profile_pic} alt="profile picture" size={300} />
         <h1>{profUsers[profileUidKey]?.name}</h1>
@@ -45,9 +45,11 @@ export default function ProfilePage() {
         </Link>
       </div>
       <div>
-        <Button variant="danger" onClick={signOut}>
-          Sign Out
-        </Button>
+        <Link href="/" passHref>
+          <Button variant="danger" onClick={signOut}>
+            Sign Out
+          </Button>
+        </Link>
       </div>
     </>
   );
