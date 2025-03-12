@@ -14,10 +14,5 @@ export default function EditRecordPage() {
     getSingleRecord(firebaseKey).then(setEditRec);
   }, [firebaseKey]);
 
-  return (
-    <>
-      <div>This is the EDIT PAGE. Insert create/EDIT form here!</div>
-      <RecordForm recObj={editRec} />
-    </>
-  );
+  return <RecordForm recObj={editRec} />;
 }
