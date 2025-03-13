@@ -48,23 +48,23 @@ export default function RecordForm({ recObj = initialState }) {
     <Form onSubmit={handleSubmit}>
       <div className="mt-3">
         <Form.Label> Artist Name</Form.Label>
-        <Form.Control type="text" name="artist" placeholder="Enter the name of an artist for your record here" value={recForm.artist} onChange={handleChange} required />
+        <Form.Control type="text" name="artist" placeholder="Enter the name of an artist for your record here" value={recForm.artist || ''} onChange={handleChange} required />
       </div>
       <div className="mt-3">
         <Form.Label> Record Title</Form.Label>
-        <Form.Control type="text" name="title" placeholder="Enter a title for your record here" value={recForm.title} onChange={handleChange} required />
+        <Form.Control type="text" name="title" placeholder="Enter a title for your record here" value={recForm.title || ''} onChange={handleChange} required />
       </div>
       <div className="mt-3">
         <Form.Label> Record Cover URL</Form.Label>
-        <Form.Control type="text" name="image" placeholder="Enter a URL here to represent the record" value={recForm.image} onChange={handleChange} required />
+        <Form.Control type="text" name="image" placeholder="Enter a URL here to represent the record" value={recForm.image || ''} onChange={handleChange} required />
       </div>
       <div className="mt-3">
         <Form.Label> Record Description</Form.Label>
-        <Form.Control as="textarea" name="description" placeholder="Enter a meaningful description for your record here" value={recForm.description} onChange={handleChange} />
+        <Form.Control as="textarea" name="description" placeholder="Enter a meaningful description for your record here" value={recForm.description || ''} onChange={handleChange} />
       </div>
       <div className="mt-3">
         <Form.Label> Record Genre</Form.Label>
-        <Form.Select name="genre" placeholder="Select a genre here" value={recForm.genre} onChange={handleChange} required>
+        <Form.Select name="genre" placeholder="Select a genre here" value={recForm.genre || ''} onChange={handleChange} required>
           <option value="">Select A Genre</option>
           <option>Alternative</option>
           <option>Classical</option>
@@ -83,9 +83,15 @@ export default function RecordForm({ recObj = initialState }) {
         </Form.Select>
       </div>
       <div>
-        <Button type="submit" variant="success">
-          Submit
-        </Button>
+        {recObj.firebaseKey ? (
+          <Button type="submit" variant="warning">
+            Edit
+          </Button>
+        ) : (
+          <Button type="submit" variant="success">
+            Create
+          </Button>
+        )}
       </div>
     </Form>
   );
@@ -103,8 +109,4 @@ RecordForm.propTypes = {
     title: PropTypes.string,
     uid: PropTypes.string,
   }),
-};
-
-RecordForm.defaultProps = {
-  recObj: initialState,
 };
