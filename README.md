@@ -7,8 +7,9 @@ https://dupesogs.netlify.app/
 ## Table of Contents
 - [Overview](https://github.com/lndnbrr/dupesogs-lb/blob/main/README.md#overview)
 - [Planning Documentation](https://github.com/lndnbrr/dupesogs-lb/blob/main/README.md#planning-documentation)
-- [Who does Dupesogs cater to?](https://github.com/lndnbrr/dupesogs-lb/blob/main/README.md#who-does-dupesogs-cater-to?)
+- [Who does Dupesogs cater to?](https://github.com/lndnbrr/dupesogs-lb/blob/main/README.md#who-does-dupesogs-cater-to)
 - [Features](https://github.com/lndnbrr/dupesogs-lb/blob/main/README.md#features)
+- [Screenshots of User Interface](https://github.com/lndnbrr/dupesogs-lb/blob/main/README.md#screenshots-of-user-interface)
 - [How To Use](https://github.com/lndnbrr/dupesogs-lb/blob/main/README.md#how-to-use)
 - [Credits](https://github.com/lndnbrr/dupesogs-lb/blob/main/README.md#credits)
 
