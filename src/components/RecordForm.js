@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useAuth } from '@/utils/context/authContext';
 import { createRecord, updateRecord } from '@/api/recordData';
+import { getSingleUser } from '@/api/userData';
 import { useRouter } from 'next/navigation';
 
 const initialState = {
@@ -17,12 +18,35 @@ const initialState = {
 
 export default function RecordForm({ recObj = initialState }) {
   const [recForm, setRecForm] = useState(recObj);
+  const [officialStatus, setOfficialStatus] = useState(false);
   const { user } = useAuth();
   const router = useRouter();
+
+  async function userProfile() {
+    try {
+      const fetchUser = await getSingleUser(user.uid);
+      const appUser = fetchUser[0];
+      console.log('appUser', appUser);
+      console.log('officialStatus', officialStatus);
+      if (appUser && appUser?.uid === user.uid) {
+        // console.log("user.uid",user.uid)
+        // console.log("appUser[0]?.is_musician",appUser.is_musician)
+        setOfficialStatus(true);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      console.log('we did it!');
+    }
+  }
 
   useEffect(() => {
     if (recObj.firebaseKey) setRecForm(recObj);
   }, [recObj]);
+
+  useEffect(() => {
+    userProfile();
+  }, [user.uid]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,6 +58,15 @@ export default function RecordForm({ recObj = initialState }) {
     if (recObj.firebaseKey) {
       updateRecord(recForm).then(() => router.push(`/record/${recObj.firebaseKey}`));
     } else {
+      const appUser = getSingleUser(user.uid);
+      // must change appUser to appear as an object rather than a firebasekey.
+      if (appUser === user.uid && appUser.is_musician === true) {
+        // console.log("return true")
+      } else {
+        // console.log("I am appUser",appUser)
+        // console.log("I am user.uid",user.uid)
+        // console.log("I am appUser.is_musician",appUser.is_musician)
+      }
       const payload = { ...recForm, uid: user.uid, created_at: new Date().toLocaleDateString() };
       createRecord(payload).then(({ name }) => {
         const fbKey = { firebaseKey: name };
@@ -110,3 +143,19 @@ RecordForm.propTypes = {
     uid: PropTypes.string,
   }),
 };
+
+// async function determineUser() {
+//   try {
+//     const user = await getSingleUser(user.uid);
+//     console.log("getSingleUser(uid):", getSingleUser(user.uid))
+//     console.log("const user:", user)
+//     const userReformat = Object.values(user).filter((value)=> value?.uid === user.uid)[0]
+//     console.log("const userReformat:",userReformat)
+//     // setEditUser(userReformat);
+//   } catch (error) {
+//     console.error("Detected Error:", error);
+//   } finally{
+//     setMusician(false);
+//   }
+// }
+// determineUser();

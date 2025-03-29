@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { getRecordsByOfficialStatus } from '@/api/recordData';
 import RecordCard from '@/components/RecordCard';
+import Link from 'next/link';
+import { Button } from 'react-bootstrap';
 
 export default function Homepage() {
   const [record, setRecords] = useState([]);
@@ -23,6 +25,11 @@ export default function Homepage() {
           <RecordCard key={featRecord.firebaseKey} recordObj={featRecord} onUpdate={recordPreview} />
         ))}
       </div>
+      <Link href="/user/new" passHref>
+        <Button type="button" variant="success">
+          Create your profile!
+        </Button>
+      </Link>
     </>
   );
 }
