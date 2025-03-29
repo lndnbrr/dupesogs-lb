@@ -5,7 +5,7 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import getSingleUser from '@/api/userData';
+import { getSingleUser } from '@/api/userData';
 import { useParams } from 'next/navigation';
 import ProfilePicture from '@/components/ProfilePicture';
 import { signOut } from '@/utils/auth';
@@ -38,7 +38,7 @@ export default function ProfilePage() {
       </div>
 
       <div>
-        <Link href="/user/edit" passHref>
+        <Link href={`/user/edit/${uid}`} passHref>
           <Button type="button" variant="warning">
             Edit your profile!
           </Button>
