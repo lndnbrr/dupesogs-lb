@@ -6,6 +6,7 @@ import { Button, Form } from 'react-bootstrap';
 import { useAuth } from '@/utils/context/authContext';
 import { createRecord, updateRecord } from '@/api/recordData';
 import { useRouter } from 'next/navigation';
+import { firebase } from '@/utils/client';
 
 const initialState = {
   artist: '',
@@ -17,6 +18,7 @@ const initialState = {
 
 export default function RecordForm({ recObj = initialState }) {
   const [recForm, setRecForm] = useState(recObj);
+  const [imageFile, setImageFile] = useState(null);
   const { user } = useAuth();
   const router = useRouter();
 
@@ -29,12 +31,26 @@ export default function RecordForm({ recObj = initialState }) {
     setRecForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+  };
+
+  const uploadImage = async (file) => {
+    const storageRef = firebase.storage().ref();
+    const fileRef = storageRef.child(`record-covers/${user.uid}/${Date.now()}_${file.name}`);
+    await fileRef.put(file);
+    const imageURL = await fileRef.getDownloadURL();
+    return imageURL;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (recObj.firebaseKey) {
       updateRecord(recForm).then(() => router.push(`/record/${recObj.firebaseKey}`));
     } else {
-      const payload = { ...recForm, uid: user.uid, created_at: new Date().toLocaleDateString() };
+      const imageURL = await uploadImage(imageFile);
+      const payload = { ...recForm, image: imageURL, uid: user.uid, created_at: new Date().toLocaleDateString() };
       createRecord(payload).then(({ name }) => {
         const fbKey = { firebaseKey: name };
         updateRecord(fbKey).then(() => {
@@ -55,8 +71,8 @@ export default function RecordForm({ recObj = initialState }) {
         <Form.Control type="text" name="title" placeholder="Enter a title for your record here" value={recForm.title || ''} onChange={handleChange} required />
       </div>
       <div className="mt-3">
-        <Form.Label> Record Cover URL</Form.Label>
-        <Form.Control type="text" name="image" placeholder="Enter a URL here to represent the record" value={recForm.image || ''} onChange={handleChange} required />
+        <Form.Label> Record Cover Image</Form.Label>
+        <Form.Control type="file" accept="image/*" onChange={handleFileChange} required />
       </div>
       <div className="mt-3">
         <Form.Label> Record Description</Form.Label>
