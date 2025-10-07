@@ -47,7 +47,12 @@ export default function RecordForm({ recObj = initialState }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (recObj.firebaseKey) {
-      updateRecord(recForm).then(() => router.push(`/record/${recObj.firebaseKey}`));
+      let imageURL = recForm.image;
+      if (imageFile) {
+        imageURL = await uploadImage(imageFile);
+      }
+      const payload = { ...recForm, image: imageURL };
+      updateRecord(payload).then(() => router.push(`/record/${recObj.firebaseKey}`));
     } else {
       const imageURL = await uploadImage(imageFile);
       const payload = { ...recForm, image: imageURL, uid: user.uid, created_at: new Date().toLocaleDateString() };
@@ -71,8 +76,14 @@ export default function RecordForm({ recObj = initialState }) {
         <Form.Control type="text" name="title" placeholder="Enter a title for your record here" value={recForm.title || ''} onChange={handleChange} required />
       </div>
       <div className="mt-3">
-        <Form.Label> Record Cover Image</Form.Label>
-        <Form.Control type="file" accept="image/*" onChange={handleFileChange} required />
+        <Form.Label>{recObj.firebaseKey ? 'Upload New Record Cover Image (Optional)' : 'Record Cover Image'}</Form.Label>
+        {recObj.image && (
+          <div className="mb-2">
+            <p>Current Image:</p>
+            <img src={recObj.image} alt="current record cover" style={{ width: '200px', height: '200px', objectFit: 'cover' }} />
+          </div>
+        )}
+        <Form.Control type="file" accept="image/*" onChange={handleFileChange} />
       </div>
       <div className="mt-3">
         <Form.Label> Record Description</Form.Label>
